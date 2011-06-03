@@ -1,2 +1,0 @@
-This is a simple bridge for making cross-domain AJAX requests to a specific
-remote host, probably your API hosted on a different domain from your main app.

@@ -5,7 +5,6 @@
     <script>
       var receiveMessage = function (event) {
         // todo here: security for event.src coming from a reasonable place
-        console.log(event.data);
         message = JSON.parse(event.data);
         ajaxResponse = function(successOrFail) {
           return function(response) {

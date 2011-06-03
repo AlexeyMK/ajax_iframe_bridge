@@ -1,0 +1,54 @@
+<html>
+  <head>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <link rel="stylesheet" href="http://code.jquery.com/qunit/git/qunit.css" type="text/css"
+    media="screen" />
+    <script type="text/javascript" src="http://code.jquery.com/qunit/git/qunit.js"></script>
+    <!--//TODO: make sure the other side of this is running--> 
+    <script src="bridge.js"></script>
+    <script>
+      $(document).ready(function(){
+        Bridge.init("http://localhost:1337/iframe.html",
+                    "http://localhost:1337");
+        test("success callback works", function() {
+          stop(500);
+          Bridge.ajax({
+            url: "/double",
+            data: "value=2",
+            type: "POST",
+            success: function(response) {
+              equals(response, "4", "got the doubled response");
+              start();
+            }
+          });
+        });
+        test("error callback works", function() {
+          stop(500);
+          Bridge.ajax({
+            url: "/triple",
+            data: "value=2",
+            type: "POST",
+            success: function(response) {
+              ok(false, "url doesn't exist, how is this successful?");
+              start();
+            },
+            error: function(response) {
+              ok(true, "sweet, we failed");
+              start();
+            }
+          });
+        });
+
+      });
+    </script>
+
+  </head>
+  <body>
+    <h1 id="qunit-header">QUnit example</h1>
+    <h2 id="qunit-banner"></h2>
+    <div id="qunit-testrunner-toolbar"></div>
+    <h2 id="qunit-userAgent"></h2>
+    <ol id="qunit-tests"></ol>
+    <div id="qunit-fixture">test markup, will be hidden</div>
+  </body>
+</html>

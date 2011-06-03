@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js">
+    </script>
+    <script>
+      var receiveMessage = function (event) {
+        // todo here: security for event.src coming from a reasonable place
+        console.log(event.data);
+        message = JSON.parse(event.data);
+        ajaxResponse = function(successOrFail) {
+          return function(response) {
+            event.source.postMessage(JSON.stringify({
+              callbackId:    message.callbackId,
+              successOrFail: successOrFail,
+              response:      response
+            }), event.origin);
+          }
+        }
+        message.args.success = ajaxResponse("success");
+        message.args.error = ajaxResponse("error");
+
+        $.ajax(message.args);
+      };
+
+      window.addEventListener("message", receiveMessage, false);
+    </script>
+  </head>
+  <body></body>
+</html>

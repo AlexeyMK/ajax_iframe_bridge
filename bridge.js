@@ -30,11 +30,13 @@ Bridge = {
       JSON.stringify(message), Bridge.origin);
   },
   receive : function(event) {
-    message = JSON.parse(event.data);
-    func_to_call = 
-      Bridge.dispatchTable[message.callbackId][message.successOrFail];
-    // TODO: error check here
-    func_to_call(message.response);
+    if(event.origin.indexOf(Bridge.origin) == 0) {
+      var message = JSON.parse(event.data);
+      func_to_call =
+        Bridge.dispatchTable[message.callbackId][message.successOrFail];
+      // TODO: error check here
+      func_to_call(message.response);
+    }
   }
 }
 

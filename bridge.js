@@ -9,7 +9,7 @@ Bridge = {
     Bridge.iframe = document.createElement('iframe');
     Bridge.iframe.onload = Bridge.set_ready;
     if (Bridge.iframe.attachEvent)
-        Bridge.iframe.attachEvent("onload",Bridge.set_ready);        
+      Bridge.iframe.attachEvent("onload",Bridge.set_ready);        
     Bridge.iframe.setAttribute('src', url);
     document.body.appendChild(Bridge.iframe);
   },
@@ -25,21 +25,20 @@ Bridge = {
       args:       args,
       callbackId: callbackId
     };
-
     Bridge.iframe.contentWindow.postMessage(
       JSON.stringify(message), Bridge.origin);
   },
   set_ready: function() {
-      Bridge.ready = true;
-      for (q in Bridge.queue)
-          Bridge.ajax(Bridge.queue[q]);
+    Bridge.ready = true;
+    for (var q = 0;q < Bridge.queue.length;q++)
+      Bridge.ajax(Bridge.queue[q])
   },
   receive : function(event) {
-      message = JSON.parse(event.data)
-      func_to_call =
-          Bridge.dispatchTable[message.callbackId][message.successOrFail];
-      // TODO: error check here
-      func_to_call(message.response);
+    message = JSON.parse(event.data)
+    func_to_call =
+      Bridge.dispatchTable[message.callbackId][message.successOrFail];
+    // TODO: error check here
+    func_to_call(message.response);
   }
 }
 

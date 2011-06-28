@@ -8,8 +8,9 @@ Bridge = {
     Bridge.origin = origin;
     Bridge.iframe = document.createElement('iframe');
     Bridge.iframe.onload = Bridge.set_ready;
-    if (Bridge.iframe.attachEvent)
+    if (Bridge.iframe.attachEvent) {
       Bridge.iframe.attachEvent("onload",Bridge.set_ready);        
+    }
     Bridge.iframe.setAttribute('src', url);
     document.body.appendChild(Bridge.iframe);
   },
@@ -30,8 +31,9 @@ Bridge = {
   },
   set_ready: function() {
     Bridge.ready = true;
-    for (var q = 0;q < Bridge.queue.length;q++)
+    for (var q = 0;q < Bridge.queue.length;q++) {
       Bridge.ajax(Bridge.queue[q])
+    }
   },
   receive : function(event) {
     message = JSON.parse(event.data)

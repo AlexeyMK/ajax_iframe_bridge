@@ -6,7 +6,7 @@ Bridge = {
   init : function(url, origin, callback) {
     //sample origin: https://api.example.com
     Bridge.origin = origin;
-    Bridge.ready = (callback === undefined) ? function(){} : callback;
+    Bridge.onReady = (callback === undefined) ? function(){} : callback;
     Bridge.iframe = document.createElement('iframe');
     Bridge.iframe.onload = Bridge.set_ready;
     Bridge.iframe.setAttribute('src', url);
@@ -32,8 +32,9 @@ Bridge = {
   },
   set_ready: function() {
     Bridge.ready = true;
-    for (var q = 0;q < Bridge.queue.length;q++) {
-      Bridge.ajax(Bridge.queue[q])
+    Bridge.onReady();
+    for (var q = 0; q < Bridge.queue.length; q++) {
+      Bridge.ajax(Bridge.queue[q]);
     }
   },
   receive : function(event) {

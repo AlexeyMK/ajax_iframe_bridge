@@ -38,7 +38,6 @@ Bridge = {
     }
   },
   receive : function(event) {
-    console.log(event)
     // ensure that we're catching the right event
     if(event.origin.indexOf(Bridge.origin) !== 0) return;
     var message = JSON.parse(event.data);

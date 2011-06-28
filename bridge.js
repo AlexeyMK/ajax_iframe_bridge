@@ -3,19 +3,20 @@ Bridge = {
   nextCallbackId : 0,
   ready : false,
   queue: [],
-  init : function(url, origin) {
+  init : function(url, origin, callback) {
     //sample origin: https://api.example.com
     Bridge.origin = origin;
+    Bridge.ready = (callback === undefined) ? function(){} : callback;
     Bridge.iframe = document.createElement('iframe');
     Bridge.iframe.onload = Bridge.set_ready;
-    if (Bridge.iframe.attachEvent) {
-      Bridge.iframe.attachEvent("onload",Bridge.set_ready);        
-    }
     Bridge.iframe.setAttribute('src', url);
+    if (Bridge.iframe.attachEvent) {
+      Bridge.iframe.attachEvent("onload", Bridge.set_ready);        
+    }
     document.body.appendChild(Bridge.iframe);
   },
   ajax : function(args) {
-    if(!Bridge.ready) {Bridge.queue.push(args);return;}
+    if (!Bridge.ready) {Bridge.queue.push(args); return;}
     // add args to callback table
     var callbackId = Bridge.nextCallbackId++;
     Bridge.dispatchTable[callbackId] = {
@@ -36,8 +37,11 @@ Bridge = {
     }
   },
   receive : function(event) {
-    message = JSON.parse(event.data)
-    func_to_call =
+    console.log(event)
+    // ensure that we're catching the right event
+    if(event.origin.indexOf(Bridge.origin) !== 0) return;
+    var message = JSON.parse(event.data);
+    var func_to_call =
       Bridge.dispatchTable[message.callbackId][message.successOrFail];
     // TODO: error check here
     func_to_call(message.response);

@@ -1,12 +1,12 @@
 <html>
   <head>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js">
     </script>
     <script>
       var receiveMessage = function (event) {
         // todo here: security for event.src coming from a reasonable place
-        message = JSON.parse(event.data);
-        ajaxResponse = function(successOrFail) {
+        var message = JSON.parse(event.data);
+        var ajaxResponse = function(successOrFail) {
           return function(response) {
             event.source.postMessage(JSON.stringify({
               callbackId:    message.callbackId,

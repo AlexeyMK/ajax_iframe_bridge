@@ -13,7 +13,17 @@ Bridge = {
     if (Bridge.iframe.attachEvent) {
       Bridge.iframe.attachEvent("onload", Bridge.set_ready);
     }
-    document.body.appendChild(Bridge.iframe);
+    console.log("Document is "+ document.readyState + " at Bridge.init");
+    append = function() {
+      console.log("Document is "+ document.readyState + " at Bridge.append");
+      document.body.appendChild(Bridge.iframe);
+    };
+
+    if(document.readyState === "loading") {
+      document.addEventListener('onreadystatechange', append);
+    } else {
+      append();
+    }
   },
   ajax : function(args) {
     if (!Bridge.ready) {Bridge.queue.push(args); return;}

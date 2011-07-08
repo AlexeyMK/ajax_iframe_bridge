@@ -13,14 +13,11 @@ Bridge = {
     if (Bridge.iframe.attachEvent) {
       Bridge.iframe.attachEvent("onload", Bridge.set_ready);
     }
-    console.log("Document is "+ document.readyState + " at Bridge.init");
     append = function() {
-      console.log("Document is "+ document.readyState + " at Bridge.append");
       document.body.appendChild(Bridge.iframe);
     };
 
     if(document.readyState === "loading") {
-      console.log("Adding listener because we're still loading");
       document.addEventListener('DOMContentLoaded', append, false);
     } else {
       append();

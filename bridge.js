@@ -20,7 +20,8 @@ Bridge = {
     };
 
     if(document.readyState === "loading") {
-      document.addEventListener('onreadystatechange', append);
+      console.log("Adding listener because we're still loading");
+      document.addEventListener('DOMContentLoaded', append, false);
     } else {
       append();
     }

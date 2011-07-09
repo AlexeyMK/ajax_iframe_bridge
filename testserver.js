@@ -10,6 +10,15 @@ http.createServer(function (req, res) {
       res.writeHead(200);
       res.end("" + (value * 2));
     });
+  } else if (req.url === "/slow") {
+    var respond = function() {
+      res.writeHead(200);
+      res.end("slow");
+    };
+    setTimeout(respond, 2000);
+  } else if (req.url === "/fast") {
+    res.writeHead(200);
+    res.end("fast");
   } else {
     fs.readFile(req.url.substring(1), function(error, content) {
       if (error) {

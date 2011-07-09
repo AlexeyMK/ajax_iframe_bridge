@@ -39,6 +39,24 @@
           });
         });
 
+        test("two requests don't get crossed", function () {
+          stop(2500);
+          expect(2);
+          Bridge.ajax({
+            url: "/slow",
+            success: function(response) {
+              equals(response, "slow", "got slow when asking for slow");
+              start();
+            }
+          });
+          Bridge.ajax({
+            url: "/fast",
+            success: function(response) {
+              equals(response, "fast", "got fast when asking for fast");
+            }
+          });
+        });
+
       });
     </script>
 

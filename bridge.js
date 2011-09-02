@@ -10,6 +10,7 @@ Bridge = {
     Bridge.iframe = document.createElement('iframe');
     Bridge.iframe.onload = Bridge.set_ready;
     Bridge.iframe.setAttribute('src', url);
+    Bridge.iframe.setAttribute('style', 'display:none');
     if (Bridge.iframe.attachEvent) {
       Bridge.iframe.attachEvent("onload", Bridge.set_ready);
     }

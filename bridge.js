@@ -52,8 +52,11 @@ Bridge = {
     var message = JSON.parse(event.data);
     var func_to_call =
       Bridge.dispatchTable[message.callbackId][message.successOrFail];
-    // TODO: error check here
-    func_to_call(message.response);
+    if(typeof(func_to_call) === "undefined"){
+      throw "No callback for bridge to call on "+message.successOrFail+"; message: "+event.data;
+    } else {
+      func_to_call(message.response);
+    }
   }
 }
 
